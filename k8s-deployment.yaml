@@ -14,9 +14,11 @@ spec:
       labels:
         app: jenkins
     spec:
+      securityContext:
+        fsGroup: 117
       containers:
       - name: jenkins
-        image: 4oh4/jenkins-docker
+        image: alok1996saxena/docker-jenkins
         ports:
         - containerPort: 8080
         - containerPort: 50000
@@ -28,3 +30,24 @@ spec:
       - hostPath:
           path: "/var/run/docker.sock"
         name: "jenkins-volume"
+        
+***************************************************************************************
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/run/docker.sock"
+
+
+********************************************************************************************
+
