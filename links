@@ -1,0 +1,4 @@
+https://estl.tech/accessing-docker-from-a-kubernetes-pod-68996709c04b(group_ID)
+https://medium.com/faun/how-to-setup-scalable-jenkins-on-kubernetes-f5c1b7d439cd 
+
+chmod 666 /var/run/docker.sock
