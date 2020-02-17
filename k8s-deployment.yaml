@@ -51,3 +51,36 @@ spec:
 
 ********************************************************************************************
 
+
+atul@Azure:~$ cat dep.yaml(image preadded directly run)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dind
+  labels:
+    app: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: alok1996saxena/peraddedjenkins
+        ports:
+        - containerPort: 8080
+        - containerPort: 50000
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: "jenkins-volume"
+          readOnly: false
+      volumes:
+      - hostPath:
+          path: "/var/run/docker.sock"
+        name: "jenkins-volume"
+
