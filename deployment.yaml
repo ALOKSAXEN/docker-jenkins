@@ -1,0 +1,46 @@
+jatinder@Azure:~/alok$ cat delpoyment.yaml
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: jenkins
+    Lables:
+      app: jenkins
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: jenkins
+    labels:
+      app: jenkins
+      name: jenkins
+  spec:
+    containers:
+    - image: iocanel/jenkins-docker:latest
+      imagePullPolicy: IfNotPresent
+      name: jenkins
+      ports:
+      - name: http
+        containerPort: 8080
+        protocol: TCP
+      - name: agent
+        containerPort: 50000
+        protocol: TCP
+    volumeMounts:
+    - name: jw
+      mountPath: /var/jenkins_home/workspace/
+    - name: jw
+      mountPath: /var/run/docker.sock
+    securityContext:
+      runAsUser: 0
+      Privileged: true
+    serviceAccount: jenkins
+    serviceAccountNames: jenkins
+    volumes:
+    - name: jw
+      hostPath:
+        path: /var/jenkins_home/workspace/
+    - name: ds
+      hostPath:
+        path: /var/run/docker.sock
