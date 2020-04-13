@@ -1,0 +1,109 @@
+create application API: -
+
+import http.client
+
+conn = http.client.HTTPConnection("13.66.92.185:8084")
+
+payload = "{\r\n    \"job\": [{\r\n        \"type\": \"createApplication\",\r\n        \"application\": {\r\n            \"cloudProviders\": \"kubernetes\",\r\n            \"instancePort\": 80,\r\n            \"name\": \"dummy11\",\r\n            \"email\": \"alo@gmail.com\"\r\n        },\r\n        \"user\": \"[anonymous]\"\r\n    }],\r\n    \"application\": \"dummy11\",\r\n    \"description\": \"Create Application: dummy11\"\r\n}"
+
+headers = {
+    'content-type': "application/json",
+    'cache-control': "no-cache",
+    'postman-token': "f43dacf1-e03e-10f9-2bc6-3b1c042b94b7"
+    }
+
+conn.request("POST", "/tasks", payload, headers)
+
+res = conn.getresponse()
+data = res.read()
+
+print(data.decode("utf-8"))
+********************************************(create application)*************************************
+http://13.66.92.185:8084/tasks(POST)
+
+{
+    "job": [{
+        "type": "createApplication",
+        "application": {
+            "cloudProviders": "kubernetes",
+            "instancePort": 80,
+            "name": "dummy11",
+            "email": "alo@gmail.com"
+        },
+        "user": "[anonymous]"
+    }],
+    "application": "dummy11",
+    "description": "Create Application: dummy11"
+}
+------------------------------------------------------------------------------
+curl -X POST \
+  http://13.66.92.185:8084/tasks \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: f7bb4cf0-8dcd-45e7-3f9f-d80bcbb6da28' \
+  -d '{
+    "job": [{
+        "type": "createApplication",
+        "application": {
+            "cloudProviders": "kubernetes",
+            "instancePort": 80,
+            "name": "dummy11",
+            "email": "alo@gmail.com"
+        },
+        "user": "[anonymous]"
+    }],
+    "application": "dummy11",
+    "description": "Create Application: dummy11"
+}'
+********************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Create PIPELINE API
+http://13.66.92.185:8084/pipelines 
+ 
+ {
+    "name":"sample1",
+    "stages":[],
+    "triggers":[],
+    "application":"dummy11",
+    "limitConcurrent":true,
+    "keepWaitingPipelines":false,
+    "spelEvaluator":"v4",
+    "index":0
+    
+}
+*******************************(curl request)
+curl -X POST \
+  http://13.66.92.185:8084/pipelines \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: fe1f868b-6393-2b48-ffc2-f777298735ae' \
+  -d '{
+    "name":"sample2",
+    "stages":[],
+    "triggers":[],
+    "application":"dummy11",
+    "limitConcurrent":true,
+    "keepWaitingPipelines":false,
+    "spelEvaluator":"v4",
+    "index":0
+    
+}'
+
+-------------------------(pipeline using template )----------------------
+{"schema":"v2",
+"template":{"artifactAccount":"front50ArtifactCredentials","reference":"spinnaker://016b907e-66f8-4ef8-9f31-0df34dcb42e5:latest","type":"front50/pipelineTemplate"},
+"keepWaitingPipelines":false,
+"limitConcurrent":true,
+"application":"dummy11",
+"lastModifiedBy":"anonymous",
+"name":"pipe44","index":2,"id":"3c074d30-0105-4611-a85d-0b551fc624d6",
+"triggers":[],"type":"templatedPipeline","updateTs":"1586765452376","stages":[],"isNew":true,"plan":true
+    
+}
+--------------------
+curl -X POST \
+  http://13.66.92.185:8084/pipelines \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: add48aef-79a9-e519-2481-293bafa0b7ec' \
+  -d '{"schema":"v2","template":{"artifactAccount":"front50ArtifactCredentials","reference":"spinnaker://016b907e-66f8-4ef8-9f31-0df34dcb42e5:latest","type":"front50/pipelineTemplate"},"keepWaitingPipelines":false,"limitConcurrent":true,"application":"dummy11","lastModifiedBy":"anonymous","name":"pipe55","index":2,"id":"3c074d30-0105-4611-a85d-0b551fc624d6","triggers":[],"type":"templatedPipeline","updateTs":"1586765452376","stages":[],"isNew":true,"plan":true}'
