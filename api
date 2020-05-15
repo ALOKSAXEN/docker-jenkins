@@ -1,0 +1,1 @@
+check application exist or not :- curl -X GET "http://20.185.74.107:8084/applications/spin?expand=false" -H "accept: */*"
