@@ -1,1 +1,63 @@
 check application exist or not :- curl -X GET "http://20.185.74.107:8084/applications/spin?expand=false" -H "accept: */*"
+
+
+import requests
+# var1=os.getenv("application_name")
+var1="poc"
+get_url="http://20.185.74.107:8084/applications/"+var1+"?expand=false"
+print(get_url)
+x = requests.get(get_url)
+# print(x.headers)
+print(x.status_code)
+if x.status_code==200:
+  print("Application already exists")
+  x = requests.get('http://20.185.74.107:8084/applications/poc/pipelineConfigs')
+  x = requests.get('http://20.185.74.107:8084/applications/poc/pipelineConfigs')
+  with open('events.txt','w') as fd:
+    fd.write(x.text)
+  print(x.json())
+elif x.status_code==404:
+  print("Application need to be created")
+  url = 'http://20.185.74.107:8084/tasks'
+  myfiles = {'file': open('test.json' ,'rb')}
+  header = {
+    'content-type': "application/json",
+    'cache-control': "no-cache"
+    }
+  y = requests.post(url, files = myfiles, headers = header)
+  y.json()
+  #print the response text (the content of the requested file):
+  # print(x.headers) 
+  # print(y.raise_for_status())
+  y.raise_for_status()
+  print(y.status_code)
+
+else :
+  print("Something Went Wrong")
+  
+  
+  
+url = 'https://www.w3schools.com/python/demopage.php'
+myfiles = {'file': open('myfirstreact.png' ,'rb')}
+
+x = requests.post(url, files = myfiles)
+
+#print the response text (the content of the requested file):
+
+print(x.text)
+
+
+
+
+
+job:
+  - type: createApplication
+    application:
+      cloudProviders: kubernetes
+      instancePort: 80
+      name: {application_name}
+      email: {Application_owner_email-id}
+    user: '[anonymous]'
+application: {application_name}
+description: 'Create Application: {application_name}'
+  
